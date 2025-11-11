@@ -13,11 +13,11 @@ const conexao = new Sequelize(process.env.BD_PASSWORD_WITH_LINK, {
   dialect: "postgres",
   dialectOptions: {
     ssl: {
-      require: true,        // Supabase exige SSL
-      rejectUnauthorized: false, // necessário para evitar erro de certificado
+      require: true,        
+      rejectUnauthorized: false,
     },
   },
-  logging: false, // opcional, desativa logs SQL no console
+  logging: false, 
 });
 
 try {
