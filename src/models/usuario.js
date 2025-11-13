@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import { conexao } from "../bd/database.js";
+import { conexao } from "../db/database.js";
 
 const Usuario = conexao.define("Usuario", {
   id: {
