@@ -5,8 +5,8 @@ import { Usuario } from "../models/usuario.js"
 
 async function listar(req, res) {
     try {
-        const pets = await Usuario.findAll()
-        return res.status(200).send({ mensagem: pets })
+        const usuario = await Usuario.findAll()
+        return res.status(200).send({ mensagem: usuario })
     } catch (err) {
         console.log(err)
         res.status(500).send({ mensagem: `Erro ao executar chamada ${err}` })
@@ -14,24 +14,24 @@ async function listar(req, res) {
 }
 
 async function puxarId(req, res) {
-    // try {
-    //     const { id } = req.params
-    //     const cerveja = await Cerveja.findByPk(id)
-    //     res.status(200).send({ mensagem: cerveja})
-    // } catch(err) {
-    //     console.log(err)
-    //     res.status(500).send({ mensagem: 'Erro Interno'})
-    // }
+    try {
+        const { id } = req.params
+        const usuario = await Usuario.findByPk(id)
+        res.status(200).send({ mensagem: usuario})
+    } catch(err) {
+        console.log(err)
+        res.status(500).send({ mensagem: 'Erro Interno'})
+    }
 }
 
 async function excluir(req, res) {
-    // try {
-    //     const { id } = req.params
-    //     await Cerveja.destroy({where: { id }})
-    // } catch(err) {
-    //     console.log(err)
-    //     res.status(500).send({mensagem: 'Erro Interno'})
-    // }
+    try {
+        const { id } = req.params
+        await Usuario.destroy({where: { id }})
+    } catch(err) {
+        console.log(err)
+        res.status(500).send({mensagem: 'Erro Interno'})
+    }
 }
 
 async function criar(req, res) {
@@ -49,18 +49,18 @@ async function criar(req, res) {
 }
 
 async function atualizar(req, res) {
-    // try {
-    //     const { nome, abv, tipo, nacionalidade } = req.body
-    //     const { id } = req.params
-    //     if (!nome || !abv || !tipo || !nacionalidade || !id) {
-    //         return res.status(400).send({ mensagem: 'Campos não preenchidos' })
-    //     }
-    //     const cervejaAtualizado = await Cerveja.update({ nome, abv, tipo, nacionalidade }, { where: { id } })
-    //     res.status(201).send({ mensagem: cervejaAtualizado })
-    // } catch (err) {
-    //     console.log(err)
-    //     res.status(500).send({ mensagem: 'Erro interno' })
-    // }
+    try {
+        const { nome, email, senha, cpf, telefone } = req.body
+        const { id } = req.params
+        if (!nome || !email || !senha || !cpf || !telefone || !id) {
+            return res.status(400).send({ mensagem: 'Campos não preenchidos' })
+        }
+        const UsuarioAtualizado = await Usuario.update({ nome, email, senha, cpf, telefone }, { where: { id } })
+        res.status(201).send({ mensagem: UsuarioAtualizado })
+    } catch (err) {
+        console.log(err)
+        res.status(500).send({ mensagem: 'Erro interno' })
+    }
 }
 
-export { listar, criar }
+export { listar, criar, puxarId, excluir, atualizar }

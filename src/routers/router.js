@@ -1,13 +1,13 @@
 import express from 'express'
-import { listar, criar } from '../controllers/controler.js'
+import { listar, criar, puxarId, excluir, atualizar } from '../controllers/controler.js'
 
 const router = express.Router()
 
 router.get('/', listar)
-// router.get('/:id', puxarId)
+router.get('/:id', puxarId)
 router.post('/', criar)
-// router.put('/:id', atualizar)
-// router.delete('/:id', excluir)
+router.put('/:id', atualizar)
+router.delete('/:id', excluir)
 
 
 export { router }

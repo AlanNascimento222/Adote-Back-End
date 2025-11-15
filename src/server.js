@@ -25,4 +25,5 @@ try {
     console.log(`Error: ${erro}`)
 }
 
+
 app.listen(3000, () => console.log('API Iniciada'))  
