@@ -1,5 +1,6 @@
 import express from 'express'
-import { listar, criar, puxarId, excluir, atualizar, login, popular } from '../controllers/controler.js'
+import { listar, criar, puxarId, excluir, atualizar, login} from '../controllers/controler.js'
+import { validarToken } from '../controllers/Middleware.js'
 
 const router = express.Router()
 
@@ -7,11 +8,11 @@ const router = express.Router()
 router.post('/login', login)
 
 // Rotas de CRUD
-router.get('/', listar)
-router.get('/:id', puxarId)
-router.post('/', criar)
+router.get('/', validarToken, listar)
+router.get('/:id', validarToken, puxarId)
+router.post('/', validarToken, criar)
 // router.post('/popular', popular)
-router.put('/:id', atualizar)
-router.delete('/:id', excluir)
+router.put('/:id', validarToken, atualizar)
+router.delete('/:id', validarToken, excluir)
 
 export { router }

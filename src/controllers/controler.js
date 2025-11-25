@@ -19,7 +19,7 @@ async function login(req, res) {
         // Gera token JWT
         const token = jwt.sign(
             { id: usuario.id, nome: usuario.nome, tipo: usuario.tipo },
-            process.env.JWT_SECRET || 'meusegredo',
+            process.env.JWT_SECRET,
             { expiresIn: '1h' }
         )
 
@@ -30,36 +30,37 @@ async function login(req, res) {
     }
 }
 
-async function popular(req, res) {
-    try {
-        const listaUsuarios = req.body // Pega o array direto do Postman
+// async function popular(req, res) {
+//     try {
+//         const listaUsuarios = req.body // Pega o array direto do Postman
 
-        // Verifica se é realmente uma lista para evitar quebra
-        if (!Array.isArray(listaUsuarios)) {
-            return res.status(400).send({ mensagem: 'O corpo deve ser uma lista (array) []' })
-        }
+//         // Verifica se é realmente uma lista para evitar quebra
+//         if (!Array.isArray(listaUsuarios)) {
+//             return res.status(400).send({ mensagem: 'O corpo deve ser uma lista (array) []' })
+//         }
 
-        // Percorre a lista recebida criptografando as senhas
-        const usuariosProntos = listaUsuarios.map(user => ({
-            ...user,
-            senha: bcrypt.hashSync(user.senha, 10),
-            tipo: user.tipo || 'usuario' // Garante um tipo padrão caso não venha no JSON
-        }))
+//         // Percorre a lista recebida criptografando as senhas
+//         const usuariosProntos = listaUsuarios.map(user => ({
+//             ...user,
+//             senha: bcrypt.hashSync(user.senha, 10),
+//             tipo: user.tipo || 'usuario' // Garante um tipo padrão caso não venha no JSON
+//         }))
 
-        // Salva tudo de uma vez no banco
-        await Usuario.bulkCreate(usuariosProntos)
+//         // Salva tudo de uma vez no banco
+//         await Usuario.bulkCreate(usuariosProntos)
         
-        res.status(201).send({ mensagem: 'Lista de usuários importada com sucesso!' })
-    } catch (err) {
-        console.log(err)
-        res.status(500).send({ mensagem: `Erro ao popular: ${err}` })
-    }
-}
+//         res.status(201).send({ mensagem: 'Lista de usuários importada com sucesso!' })
+//     } catch (err) {
+//         console.log(err)
+//         res.status(500).send({ mensagem: `Erro ao popular: ${err}` })
+//     }
+// }
 
 async function listar(req, res) {
     try {
         // Exclui senha do retorno
-        const usuarios = await Usuario.findAll({ attributes: { exclude: ['senha'] } })
+        console.log(req.id_recebido)
+        const usuarios = await Usuario.findAll()
         return res.status(200).send({ mensagem: usuarios })
     } catch (err) {
         console.log(err)
@@ -81,11 +82,18 @@ async function puxarId(req, res) {
 async function excluir(req, res) {
     try {
         const { id } = req.params
-        await Usuario.destroy({ where: { id } })
-        res.status(200).send({ mensagem: 'Usuário excluído' })
+        const {tipo_usuario} = req
+
+        console.log(tipo_usuario)
+        if (tipo_usuario == "admin") {
+            await Usuario.destroy({ where: { id } })
+            res.status(200).send({ mensagem: 'Usuário excluído' })
+        } else {
+            throw new Error("sem permissões para isso")
+        }
     } catch (err) {
         console.log(err)
-        res.status(500).send({ mensagem: 'Erro Interno' })
+        res.status(500).send({ mensagem: `${err}` })
     }
 }
 
@@ -129,4 +137,4 @@ async function atualizar(req, res) {
     }
 }
 
-export { listar, criar, puxarId, excluir, atualizar, login, popular }
+export { listar, criar, puxarId, excluir, atualizar, login }

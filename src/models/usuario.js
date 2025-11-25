@@ -13,7 +13,7 @@ const Usuario = conexao.define("Usuario", {
   cpf: DataTypes.STRING,
   telefone: DataTypes.STRING,
   tipo: {
-    type: DataTypes.ENUM("admin", "comum"),
+    type: DataTypes.ENUM("admin", "usuario"),
     allowNull: false
   },
   data_cadastro: DataTypes.DATE,
