@@ -19,7 +19,7 @@ app.get('/', (_, res) => {
 
 try {
     await conexao.authenticate()
-    await conexao.sync({ alter: true })
+    // await conexao.sync({ alter: true })
 
 } catch(erro) {
     console.log(`Error: ${erro}`)

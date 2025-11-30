@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken'
 
 function validarToken(req, res, next) {
     const authHeader = req.headers['authorization']
-    // const authHeader = req.headers
     console.log(`authHeader: ${JSON.stringify(authHeader)}`)
     try {
         const conteudoTokenJWT = jwt.verify(authHeader, process.env.JWT_SECRET)
