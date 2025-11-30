@@ -1,6 +1,10 @@
 import { Pet } from "../models/pet.js"
 import "dotenv/config"
+import { gerarSenhaPadrao } from "../senha/geradorSenhas.js"
+import { Adocao } from "../models/adocao.js"
 
+
+// o usuário admin criando o PET
 async function criarPet(req, res) {
     try {
         const { tipo_usuario, id_recebido } = req
@@ -19,4 +23,36 @@ async function criarPet(req, res) {
     }
 }
 
-export { criarPet }
+async function criaAdotaPet(req, res) {
+    try {
+        const { id_recebido } = req
+        const { id } = req.params
+
+        if (!id_recebido || !id) {
+            return res.status(400).send({ message: "você não está preenchendo todos os parametros" })
+        } else {
+            //adiciona 7 dias de validade
+            const dataCriacao = new Date()
+            const dataValidade = new Date(dataCriacao)
+            dataValidade.setDate(dataCriacao.getDate() + 7)
+            const senha = gerarSenhaPadrao()
+
+            const newAdotaPet = await Adocao.create({
+                usuario_id: id_recebido,
+                pet_id: id,
+                senha_confirmacao: senha,
+                data_validade: dataValidade
+            })
+
+            return res.status(201).send({
+                message: "pet em adoção",
+                senha: senha,
+                seuPet: newAdotaPet
+            })
+        }
+    } catch(err) {
+        return res.status(500).send({message: `Erro interno: ${err}`})
+    }
+}
+
+export { criarPet, criaAdotaPet }

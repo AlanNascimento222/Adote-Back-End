@@ -1,7 +1,7 @@
 import express from 'express'
 import { listar, criar, puxarId, excluir, atualizar, login} from '../controllers/controler.js'
 import { validarToken } from '../controllers/Middleware.js'
-import { criarPet } from '../controllers/controlerPet.js'
+import { criarPet, criaAdotaPet } from '../controllers/controlerPet.js'
 
 const router = express.Router()
 
@@ -16,5 +16,6 @@ router.post('/pet', validarToken, criarPet)
 // router.post('/popular', popular)
 router.put('/:id', validarToken, atualizar)
 router.delete('/:id', validarToken, excluir)
+router.post('/pet/adotar/:id', validarToken, criaAdotaPet)
 
 export { router }
