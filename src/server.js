@@ -10,9 +10,9 @@ import cors from 'cors'
 
 
 const app = express()
-app.use(cors())
 app.use(express.json())
 app.use('/usuario', router)
+app.use(cors())
 
 app.get('/', (_, res) => {
     res.status(200).json({ resposta: "olá, seja bem vindo a API de PETs"})
