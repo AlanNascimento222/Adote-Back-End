@@ -6,10 +6,11 @@ import { FotoPet } from "./models/fotopet.js"
 import { Pet } from "./models/pet.js"
 import { Usuario } from "./models/usuario.js"
 import { router } from './routers/router.js'
+import cors from 'cors'
 
 
 const app = express()
-
+app.use(cors())
 app.use(express.json())
 app.use('/usuario', router)
 

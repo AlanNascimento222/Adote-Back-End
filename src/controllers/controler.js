@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
-// import { Pet } from "../models/pet.js"
+import { Pet } from "../models/pet.js"
 import { Usuario } from "../models/usuario.js"
 import "dotenv/config"
 
@@ -55,6 +55,14 @@ async function login(req, res) {
 //         res.status(500).send({ mensagem: `Erro ao popular: ${err}` })
 //     }
 // }
+
+async function criarPet(req, res) {
+    try{
+        
+    } catch (err) {
+
+    }
+}
 
 async function listar(req, res) {
     try {
