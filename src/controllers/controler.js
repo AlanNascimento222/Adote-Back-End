@@ -66,8 +66,6 @@ async function criarPet(req, res) {
 
 async function listar(req, res) {
     try {
-        // Exclui senha do retorno
-        console.log(req.id_recebido)
         const usuarios = await Usuario.findAll()
         return res.status(200).send({ mensagem: usuarios })
     } catch (err) {

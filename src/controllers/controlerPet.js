@@ -23,6 +23,15 @@ async function criarPet(req, res) {
     }
 }
 
+async function listarPets(_, res) {
+    try {
+        const pets = await Pet.findAll()
+        return res.status(200).send({message: pets})
+    } catch (err) {
+        return res.status(500).send({message:"eu sinceramente não sei como você chegou aqui, mas se chegou, algo muito de errado tem com a sua requisição", Erro: err})
+    }
+}
+
 async function criaAdotaPet(req, res) {
     try {
         const { id_recebido } = req
@@ -55,4 +64,4 @@ async function criaAdotaPet(req, res) {
     }
 }
 
-export { criarPet, criaAdotaPet }
+export { criarPet, criaAdotaPet, listarPets }
