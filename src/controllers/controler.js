@@ -23,7 +23,7 @@ async function login(req, res) {
             { expiresIn: '1h' }
         )
 
-        res.status(200).send({ mensagem: 'Login sucesso', token, usuarioId: usuario.id })
+        res.status(200).send({ mensagem: 'Login sucesso', token , usuarioId: usuario.id })
     } catch (err) {
         console.log(err)
         res.status(500).send({ mensagem: `Erro login: ${err}` })
@@ -56,13 +56,6 @@ async function login(req, res) {
 //     }
 // }
 
-async function criarPet(req, res) {
-    try{
-        
-    } catch (err) {
-
-    }
-}
 
 async function listar(req, res) {
     try {

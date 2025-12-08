@@ -46,6 +46,7 @@ async function criaAdotaPet(req, res) {
             dataValidade.setDate(dataCriacao.getDate() + 7)
             const senha = gerarSenhaPadrao()
 
+
             const newAdotaPet = await Adocao.create({
                 usuario_id: id_recebido,
                 pet_id: id,
@@ -61,7 +62,7 @@ async function criaAdotaPet(req, res) {
         }
     } catch(err) {
         return res.status(500).send({message: `Erro interno: ${err}`})
-    }
+    }   
 }
 
 export { criarPet, criaAdotaPet, listarPets }
