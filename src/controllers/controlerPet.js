@@ -26,9 +26,9 @@ async function criarPet(req, res) {
 async function listarPets(_, res) {
     try {
         const pets = await Pet.findAll()
-        return res.status(200).send({message: pets})
+        return res.status(200).send({ message: pets })
     } catch (err) {
-        return res.status(500).send({message:"eu sinceramente não sei como você chegou aqui, mas se chegou, algo muito de errado tem com a sua requisição", Erro: err})
+        return res.status(500).send({ message: "eu sinceramente não sei como você chegou aqui, mas se chegou, algo muito de errado tem com a sua requisição", Erro: err })
     }
 }
 
@@ -54,15 +54,29 @@ async function criaAdotaPet(req, res) {
                 data_validade: dataValidade
             })
 
+            // Atualiza o status do pet para "Pendente"
+            // Atualiza o status do pet para "Pendente"
+            console.log(`Tentando atualizar status do pet ${id} para 'Pendente'`);
+            const [updatedRows] = await Pet.update(
+                { status: "Pendente" },
+                { where: { id: id } }
+            );
+
+            if (updatedRows > 0) {
+                console.log(`Sucesso: Pet ${id} atualizado para 'Pendente'.`);
+            } else {
+                console.log(`Falha: Pet ${id} não foi encontrado ou não foi atualizado.`);
+            }
+
             return res.status(201).send({
                 message: "pet em adoção",
                 senha: senha,
                 seuPet: newAdotaPet
             })
         }
-    } catch(err) {
-        return res.status(500).send({message: `Erro interno: ${err}`})
-    }   
+    } catch (err) {
+        return res.status(500).send({ message: `Erro interno: ${err}` })
+    }
 }
 
 export { criarPet, criaAdotaPet, listarPets }
